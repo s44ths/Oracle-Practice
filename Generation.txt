@@ -1,0 +1,95 @@
+CREATE TABLE Alpinist
+(
+	alp_id               INTEGER NOT NULL ,
+	Name                 VARCHAR2(70) NOT NULL ,
+	Address              VARCHAR2(150) NOT NULL 
+);
+
+CREATE UNIQUE INDEX XPKAlpinist ON Alpinist
+(alp_id   ASC);
+
+ALTER TABLE Alpinist
+	ADD CONSTRAINT  XPKAlpinist PRIMARY KEY (alp_id);
+
+
+
+CREATE TABLE GroupMembership
+(
+	gm_id                INTEGER NOT NULL ,
+	group_id             INTEGER NOT NULL ,
+	alp_id               INTEGER NOT NULL 
+);
+
+CREATE UNIQUE INDEX XPKGroupMembership ON GroupMembership
+(gm_id   ASC);
+
+ALTER TABLE GroupMembership
+	ADD CONSTRAINT  XPKGroupMembership PRIMARY KEY (gm_id);
+
+
+
+CREATE TABLE Groups
+(
+	group_id             INTEGER NOT NULL ,
+	GroupName            VARCHAR2(50) NULL 
+);
+
+CREATE UNIQUE INDEX XPKGroups ON Groups
+(group_id   ASC);
+
+ALTER TABLE Groups
+	ADD CONSTRAINT  XPKGroups PRIMARY KEY (group_id);
+
+
+
+CREATE TABLE MountainClimbing
+(
+	mc_id                INTEGER NOT NULL ,
+	ClBegin              DATE NOT NULL ,
+	ClEnd                DATE NOT NULL ,
+	mount_id             INTEGER NOT NULL ,
+	group_id             INTEGER NOT NULL 
+);
+
+CREATE UNIQUE INDEX XPKMountainClimbing ON MountainClimbing
+(mc_id   ASC);
+
+ALTER TABLE MountainClimbing
+	ADD CONSTRAINT  XPKMountainClimbing PRIMARY KEY (mc_id);
+
+
+
+CREATE TABLE Mountains
+(
+	mount_id             INTEGER NOT NULL ,
+	Name                 VARCHAR2(50) NOT NULL ,
+	Height               NUMBER NOT NULL ,
+	Country              VARCHAR2(50) NOT NULL ,
+	District             VARCHAR2(50) NOT NULL 
+);
+
+CREATE UNIQUE INDEX XPKMountains ON Mountains
+(mount_id   ASC);
+
+ALTER TABLE Mountains
+	ADD CONSTRAINT  XPKMountains PRIMARY KEY (mount_id);
+
+
+
+ALTER TABLE GroupMembership
+	ADD (CONSTRAINT R_5 FOREIGN KEY (group_id) REFERENCES Groups (group_id));
+
+
+
+ALTER TABLE GroupMembership
+	ADD (CONSTRAINT R_9 FOREIGN KEY (alp_id) REFERENCES Alpinist (alp_id));
+
+
+
+ALTER TABLE MountainClimbing
+	ADD (CONSTRAINT R_7 FOREIGN KEY (mount_id) REFERENCES Mountains (mount_id));
+
+
+
+ALTER TABLE MountainClimbing
+	ADD (CONSTRAINT R_8 FOREIGN KEY (group_id) REFERENCES Groups (group_id));
